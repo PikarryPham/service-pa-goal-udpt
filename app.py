@@ -14,15 +14,28 @@ app.config['MYSQL_HOST'] = 'localhost'
 
 mysql.init_app(app)
 
-@app.route('/api/get-pa-goals', methods=['POST','GET'])
+
+@app.route('/api/get-pa-goals', methods=['POST', 'GET'])
 def get_pa_goals():
+    """
+    Example req body
+    {
+        "page":1,
+        "limit":1,
+        "employee_id":"8",
+        "status":["Approved","Rejected"],
+        "last_update":"2022",
+        "deadline":"2021"
+    }
+    nếu  "status":[] => status = “All” khi filter
+    """
     conn = mysql.connection
     cursor = conn.cursor()
 
     body_request = request.get_json()
 
     page = 0  # trang 1
-    limit = 5  # moi trang 5
+    limit = 5  # moi trang mac dinh co 5 record
 
     try:
         page = body_request["page"]
@@ -45,18 +58,20 @@ def get_pa_goals():
     last_update = "'1970-01-01 00:00:00'"
     try:
         last_update = body_request["last_update"]
-        last_update = last_update + "-01-01 00:00:00"
+        # last_update = last_update + "-01-01 00:00:00"
         last_update = str(last_update)
         last_update = f"'{last_update}'"
+        print(last_update)
     except:
         print("last update not found")
 
     deadline = "'1970-01-01 00:00:00'"
     try:
         deadline = body_request["deadline"]
-        deadline = deadline + "-01-01 00:00:00"
+        # deadline = deadline + "-01-01 00:00:00"
         deadline = str(deadline)
         deadline = f"'{deadline}'"
+        print(deadline)
     except:
         print("deadline not found")
 
@@ -70,14 +85,22 @@ def get_pa_goals():
         status[i] = f"'{status[i]}'"
 
     # get the record
-    query_string = "SELECT * FROM pa_goal "+" WHERE STATUS IN (" + ",".join(
-        status) + ")" + f" AND EMPLOYEECREATE_ID = {employee_id}" + f" AND LASTUPDATE_DATE > {last_update}" + f" AND DEADLINE_PAGOAL > {deadline}" + f" ORDER BY LASTUPDATE_DATE DESC LIMIT {offset},{limit}"
+    print(len(status))
+    if(len(status) != 0):
+        query_string = "SELECT * FROM pa_goal "+" WHERE STATUS IN (" + ",".join(
+            status) + ")" + f" AND EMPLOYEECREATE_ID = {employee_id}" + f" AND YEAR(LASTUPDATE_DATE) = {last_update}" + f" AND YEAR(DEADLINE_PAGOAL) = {deadline}" + f" ORDER BY LASTUPDATE_DATE DESC LIMIT {offset},{limit}"
 
+    else:
+        query_string = "SELECT * FROM pa_goal " + \
+                f" WHERE EMPLOYEECREATE_ID = {employee_id}" + f" AND YEAR(LASTUPDATE_DATE) = {last_update}" + \
+                f" AND YEAR(DEADLINE_PAGOAL) = {deadline}" + \
+                f" ORDER BY LASTUPDATE_DATE DESC" + \
+                f" LIMIT {offset},{limit}"
     try:
         if(len(status) == 0):
             query_string = "SELECT * FROM pa_goal " + \
-                f" WHERE EMPLOYEECREATE_ID = {employee_id}" + f" AND LASTUPDATE_DATE > {last_update}" + \
-                f" AND DEADLINE_PAGOAL > {deadline}" + \
+                f" WHERE EMPLOYEECREATE_ID = {employee_id}" + f" AND YEAR(LASTUPDATE_DATE) = {last_update}" + \
+                f" AND YEAR(DEADLINE_PAGOAL) = {deadline}" + \
                 f" ORDER BY LASTUPDATE_DATE DESC" + \
                 f" LIMIT {offset},{limit}"
     except:
@@ -109,13 +132,23 @@ def get_pa_goals():
     cursor.close()
 
     return jsonify({
-        "total": total,
+        "total_records": total,
         "data": json_data,
     })
 
 
-@app.route('/api/unsubmit', methods=['POST','PATCH'])
+@app.route('/api/unsubmit', methods=['POST', 'PATCH'])
 def unsubmit():
+    """
+    Example req body
+    {
+        {
+            "reason":"abc deft",
+            "pa_goal_id":"2",
+            "employee_id":"8"
+        }
+    }
+    """
     conn = mysql.connection
     cursor = conn.cursor()
 
@@ -145,7 +178,7 @@ def unsubmit():
         return "System error", 500
 
 
-@app.route('/api/reject', methods=['POST','PATCH'])
+@app.route('/api/reject', methods=['POST', 'PATCH'])
 def reject():
     conn = mysql.connection
     cursor = conn.cursor()
@@ -176,7 +209,7 @@ def reject():
         return "System error", 500
 
 
-@app.route('/change-status', methods=['POST','PATCH'])
+@app.route('/api/change-status', methods=['POST', 'PATCH'])
 def change_status():
     conn = mysql.connection
     cursor = conn.cursor()
@@ -207,7 +240,7 @@ def change_status():
         return "System error", 500
 
 
-@app.route('/get-pa-goal', methods=['POST','GET'])
+@app.route('/api/get-pa-goal', methods=['POST', 'GET'])
 def get_pa_goal():
 
     conn = mysql.connection
@@ -237,7 +270,7 @@ def get_pa_goal():
     })
 
 
-@app.route('/add-goal', methods=['POST'])
+@app.route('/api/add-goal', methods=['POST'])
 def add_goal():
     conn = mysql.connection
     cursor = conn.cursor()
@@ -296,7 +329,7 @@ def add_goal():
         return "System error", 500
 
 
-@app.route('/edit-goal', methods=['POST','PATCH'])
+@app.route('/api/edit-goal', methods=['POST', 'PATCH'])
 def edit_goal():
     conn = mysql.connection
     cursor = conn.cursor()
@@ -357,7 +390,7 @@ def edit_goal():
         return "System error", 500
 
 
-@app.route('/delete-goal', methods=['POST','DELETE'])
+@app.route('/api/delete-goal', methods=['POST', 'DELETE'])
 def delete_goal():
     conn = mysql.connection
     cursor = conn.cursor()
@@ -412,7 +445,7 @@ def delete_goal():
             return "System error", 500
 
 
-@app.route('/view-goal', methods=['POST','GET'])
+@app.route('/api/view-goal', methods=['POST', 'GET'])
 def view_goal():
     conn = mysql.connection
     cursor = conn.cursor()
