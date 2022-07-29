@@ -206,8 +206,10 @@ def reject():
         pa_goal_id = body_request["pa_goal_id"]
     except:
         return "pa goal id not found", 400
-
     try:
+        #cursor.execute("SELECT status from pa_goal WHERE PAGOAL_ID = %s")
+        #getCurrentStatus = cursor.fetchall()
+        #print(getCurrentStatus)
         cursor.execute('UPDATE pa_goal SET LASTUPDATE_DATE = %s, MANAGER_COMMENT = %s, STATUS = %s  WHERE PAGOAL_ID = %s',
                        (date, comment, "Rejected", pa_goal_id))
         conn.commit()
