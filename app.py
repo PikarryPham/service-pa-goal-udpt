@@ -144,8 +144,7 @@ def unsubmit():
     {
         {
             "reason":"abc deft",
-            "pa_goal_id":"2",
-            "employee_id":"8"
+            "pa_goal_id":"2"
         }
     }
     """
@@ -180,6 +179,15 @@ def unsubmit():
 
 @app.route('/api/reject', methods=['POST', 'PATCH'])
 def reject():
+    """
+    Example req body
+    {
+        {
+             "comment":"abc1",
+             "pa_goal_id":"2"
+        }
+    }
+    """
     conn = mysql.connection
     cursor = conn.cursor()
 
@@ -211,6 +219,15 @@ def reject():
 
 @app.route('/api/change-status', methods=['POST', 'PATCH'])
 def change_status():
+    """
+    Example req body
+    {
+        {
+             "status":"Rejected",
+             "pa_goal_id":"2"
+        }
+    }
+    """
     conn = mysql.connection
     cursor = conn.cursor()
 
@@ -242,7 +259,14 @@ def change_status():
 
 @app.route('/api/get-pa-goal', methods=['POST', 'GET'])
 def get_pa_goal():
-
+    """
+    Example req body
+    {
+        {
+             "pa_goal_id":"2"
+        }
+    }
+    """
     conn = mysql.connection
     cursor = conn.cursor()
 
@@ -272,6 +296,18 @@ def get_pa_goal():
 
 @app.route('/api/add-goal', methods=['POST'])
 def add_goal():
+    """
+    Example req body
+    {
+        {
+            "pa_goal_id":"2",
+            "due_date":"2022-12-01 00:00:00",
+            "name":"Trang Pham",
+            "action":"Làm bài tập",
+            "comment":"Không có ưu tiên cao"
+        }
+    }
+    """
     conn = mysql.connection
     cursor = conn.cursor()
 
@@ -331,6 +367,19 @@ def add_goal():
 
 @app.route('/api/edit-goal', methods=['POST', 'PATCH'])
 def edit_goal():
+    """
+    Example req body
+    {
+        "pa_goal_id":"2",
+        "pa_goal_detail_id":"1",
+        "due_date":"2023-01-01 00:00:00",
+        "complete_date":"2024-01-01 00:00:00",
+        "status":"Completed",
+        "name":"TU 1",
+        "action":"TU 2",
+        "comment":"Tu 3"
+    }
+    """
     conn = mysql.connection
     cursor = conn.cursor()
 
@@ -392,6 +441,14 @@ def edit_goal():
 
 @app.route('/api/delete-goal', methods=['POST', 'DELETE'])
 def delete_goal():
+    """
+    Example req body
+    {
+       "pa_goal_id":"2",
+        "pa_goal_detail_ids":["4","5"]
+    }
+    "pa_goal_detail_ids":[] la xoa het goals
+    """
     conn = mysql.connection
     cursor = conn.cursor()
 
@@ -447,6 +504,13 @@ def delete_goal():
 
 @app.route('/api/view-goal', methods=['POST', 'GET'])
 def view_goal():
+    """
+    Example req body
+    {
+       "pa_goal_id":"2",
+        "pa_goal_detail_ids":["4"]
+    }
+    """
     conn = mysql.connection
     cursor = conn.cursor()
 
