@@ -1,3 +1,4 @@
+
 from flask import Flask, jsonify, request
 from datetime import datetime
 from flask_mysqldb import MySQL
@@ -8,12 +9,12 @@ app = Flask(__name__)
 # MySQL configurations
 app.config['MYSQL_USER'] = 'root'
 app.config['MYSQL_PASSWORD'] = ''
-app.config['MYSQL_DB'] = 'testapi'
+app.config['MYSQL_DB'] = 'pagoalform'
 app.config['MYSQL_HOST'] = 'localhost'
 
 mysql.init_app(app)
 
-@app.route('/get-pa-goals', methods=['POST'])
+@app.route('/api/get-pa-goals', methods=['POST','GET'])
 def get_pa_goals():
     conn = mysql.connection
     cursor = conn.cursor()
@@ -113,7 +114,7 @@ def get_pa_goals():
     })
 
 
-@app.route('/unsubmit', methods=['POST'])
+@app.route('/api/unsubmit', methods=['POST','PATCH'])
 def unsubmit():
     conn = mysql.connection
     cursor = conn.cursor()
@@ -144,7 +145,7 @@ def unsubmit():
         return "System error", 500
 
 
-@app.route('/reject', methods=['POST'])
+@app.route('/api/reject', methods=['POST','PATCH'])
 def reject():
     conn = mysql.connection
     cursor = conn.cursor()
@@ -175,7 +176,7 @@ def reject():
         return "System error", 500
 
 
-@app.route('/change-status', methods=['POST'])
+@app.route('/change-status', methods=['POST','PATCH'])
 def change_status():
     conn = mysql.connection
     cursor = conn.cursor()
@@ -206,7 +207,7 @@ def change_status():
         return "System error", 500
 
 
-@app.route('/get-pa-goal', methods=['POST'])
+@app.route('/get-pa-goal', methods=['POST','GET'])
 def get_pa_goal():
 
     conn = mysql.connection
@@ -295,7 +296,7 @@ def add_goal():
         return "System error", 500
 
 
-@app.route('/edit-goal', methods=['POST'])
+@app.route('/edit-goal', methods=['POST','PATCH'])
 def edit_goal():
     conn = mysql.connection
     cursor = conn.cursor()
@@ -356,7 +357,7 @@ def edit_goal():
         return "System error", 500
 
 
-@app.route('/delete-goal', methods=['POST'])
+@app.route('/delete-goal', methods=['POST','DELETE'])
 def delete_goal():
     conn = mysql.connection
     cursor = conn.cursor()
@@ -411,7 +412,7 @@ def delete_goal():
             return "System error", 500
 
 
-@app.route('/view-goal', methods=['POST'])
+@app.route('/view-goal', methods=['POST','GET'])
 def view_goal():
     conn = mysql.connection
     cursor = conn.cursor()
