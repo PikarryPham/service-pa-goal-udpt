@@ -58,7 +58,7 @@ def get_pa_goals():
     except:
         return "employee id not found", 500
 
-    last_update = "'1970-01-01 00:00:00'"
+    last_update = "'2022-01-01 00:00:00'"
     try:
         last_update = body_request["last_update"]
         # last_update = last_update + "-01-01 00:00:00"
@@ -68,7 +68,7 @@ def get_pa_goals():
     except:
         print("last update not found")
 
-    deadline = "'1970-01-01 00:00:00'"
+    deadline = "'2022-01-01 00:00:00'"
     try:
         deadline = body_request["deadline"]
         # deadline = deadline + "-01-01 00:00:00"
