@@ -9,3 +9,5 @@ If you meet the problem
 
 GRANT all privileges on <name of database>.* to '<name of computer user>'@'localhost' WITH GRANT OPTION;
 SHOW GRANTS FOR '<name of computer user>'@'localhost';
+
+pip install smtplib --user

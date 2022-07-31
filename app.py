@@ -2,6 +2,9 @@
 from flask import Flask, jsonify, request
 from datetime import datetime
 from flask_mysqldb import MySQL
+import smtplib
+import ssl
+from email.message import EmailMessage
 
 mysql = MySQL()
 app = Flask(__name__)
@@ -129,6 +132,9 @@ def get_pa_goals():
     cursor.execute(query_string)
     total = int(cursor.fetchall()[0][0])
 
+    #getManagerEmail = "SELECT employee.EMAIL FROM employee WHERE employee.EMPLOYEE_ID IN (SELECT employee.MANAGER_ID FROM employee" + f" WHERE employee.EMPLOYEE_ID = {employee_id}" + ")"
+
+    #cursor.execute(getManagerEmail)
     cursor.close()
 
     return jsonify({
@@ -572,3 +578,5 @@ def view_goal():
             })
         except:
             return "System error", 500
+
+    
