@@ -15,12 +15,12 @@ app.config['MYSQL_PASSWORD'] = ''
 app.config['MYSQL_DB'] = 'pagoalform'
 app.config['MYSQL_HOST'] = 'localhost'
 
-#Example call API: http://127.0.0.1:5000/api/api_uc0131_132/get-pa-goals
+#Example call API: http://127.0.0.1:5000/api/uc0131_132/get-pa-goals
 
 mysql.init_app(app)
 
 
-@app.route('/api/api_uc0131_132/get-pa-goals', methods=['POST', 'GET'])
+@app.route('/api/uc0131_132/get-pa-goals', methods=['POST', 'GET'])
 def get_pa_goals():
     """
     Example req body
@@ -210,7 +210,7 @@ def get_pa_goals():
     })
 
 
-@app.route('/api/api_uc0131_132/unsubmit', methods=['POST', 'PATCH'])
+@app.route('/api/uc0131_132/unsubmit', methods=['POST', 'PATCH'])
 def unsubmit():
     """
     Example req body
@@ -250,7 +250,7 @@ def unsubmit():
         return "System error", 500
 
 
-@app.route('/api/api_uc0131_132/reject', methods=['POST', 'PATCH'])
+@app.route('/api/uc0131_132/reject', methods=['POST', 'PATCH'])
 def reject():
     """
     Example req body
@@ -292,7 +292,7 @@ def reject():
         return "System error", 500
 
 
-@app.route('/api/api_uc0131_132/change-status', methods=['POST', 'PATCH'])
+@app.route('/api/uc0131_132/change-status', methods=['POST', 'PATCH'])
 def change_status():
     """
     Example req body
@@ -332,7 +332,7 @@ def change_status():
         return "System error", 500
 
 
-@app.route('/api/api_uc0131_132/get-pa-goal', methods=['POST', 'GET'])
+@app.route('/api/uc0131_132/get-pa-goal', methods=['POST', 'GET'])
 def get_pa_goal():
     """
     Example req body
@@ -369,7 +369,7 @@ def get_pa_goal():
     })
 
 
-@app.route('/api/api_uc0131_132/add-goal', methods=['POST'])
+@app.route('/api/uc0131_132/add-goal', methods=['POST'])
 def add_goal():
     """
     Example req body
@@ -440,7 +440,7 @@ def add_goal():
         return "System error", 500
 
 
-@app.route('/api/api_uc0131_132/edit-goal', methods=['POST', 'PATCH'])
+@app.route('/api/uc0131_132/edit-goal', methods=['POST', 'PATCH'])
 def edit_goal():
     """
     Example req body
@@ -514,7 +514,7 @@ def edit_goal():
         return "System error", 500
 
 
-@app.route('/api/api_uc0131_132/delete-goal', methods=['POST', 'DELETE'])
+@app.route('/api/uc0131_132/delete-goal', methods=['POST', 'DELETE'])
 def delete_goal():
     """
     Example req body
@@ -577,7 +577,7 @@ def delete_goal():
             return "System error", 500
 
 
-@app.route('/api/api_uc0131_132/view-goal', methods=['POST', 'GET'])
+@app.route('/api/uc0131_132/view-goal', methods=['POST', 'GET'])
 def view_goal():
     """
     Example req body
