@@ -25,7 +25,7 @@ def get_pa_goals():
     """
     Example req body
     {
-        "page":1,
+        "page":0,
         "limit":1,
         "employee_id":"8",
         "status":["Approved","Rejected"],
