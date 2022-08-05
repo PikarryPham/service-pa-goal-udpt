@@ -25,7 +25,7 @@ def get_pa_goals():
     """
     Example req body
     {
-        "page":1,
+        "page":0,
         "limit":1,
         "employee_id":"8",
         "status":["Approved","Rejected"],
@@ -39,7 +39,7 @@ def get_pa_goals():
 
     body_request = request.get_json()
 
-    page = 0  # trang 1
+    page = 0  # Page = 0 --> trang 1, Page =1 --> trang 2
     limit = 5  # moi trang mac dinh co 5 record
 
     try:
@@ -231,6 +231,7 @@ def unsubmit():
     date = datetime.now()
 
     try:
+        # Kiểm tra đã qua thời gian chỉnh sửa/quản lý đã phê duyệt chưa/Form đã có trạng thái là Cancelled hay không
         reason = body_request["reason"]
     except:
         return "Reason not found", 400
