@@ -633,8 +633,11 @@ def delete_goal():
             total = int(cursor.fetchall()[0][0])
 
             date = datetime.now()
+            print("Chiều dài của pa_goal_detail_ids là" + str(len(pa_goal_detail_ids)))
+            #remaining_goals = total - len(pa_goal_detail_ids)
+            #print("Total goals" + str(remaining_goals))
             cursor.execute('UPDATE pa_goal SET LASTUPDATE_DATE = %s, TOTAL_GOALS = %s WHERE PAGOAL_ID = %s',
-                           (date, total-len(pa_goal_detail_ids), pa_goal_id))
+                           (date, total, pa_goal_id))
 
             conn.commit()
             return "OK", 200
